@@ -1,6 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 static const int MAXN = 100000;
 int st[4*MAXN];     // almacena AND en [tl..tr]
 int marked[4*MAXN]; // almacena OR pendiente

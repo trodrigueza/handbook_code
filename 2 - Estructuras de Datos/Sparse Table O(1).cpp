@@ -2,9 +2,6 @@
 * Construcción O(n log n); consulta O(1) con 2 bloques solapados.
 * Para gcd/lcm, define un Op con std::gcd/std::lcm (C++17). Para XOR, usa [](T a,T b){return a^b;}.
 
-#include <bits/stdc++.h>
-using namespace std;
-
 // Functor de ejemplo (min). Puedes definir Max, GCD, etc.
 struct MinOp {
     template<class T>
