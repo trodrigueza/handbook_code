@@ -1,0 +1,38 @@
+Después de escribir un algoritmo para un problema dado, preguntarse: Dado el input con las cotas máximas, ¿puede el algoritmo, con su complejidad de tiempo/memoria, pasar el tiempo/memoria límite dado para ese problema en particular?\\
+Los computadores modernos pueden procesar $\approx 10^8$ operaciones por segundo. Familiarizarse con las siguientes cotas:
+
+\begin{itemize}
+    \item $2^{10}=1024\approx 10^3$.
+    \item $2^{20}=1 048 575\approx 10^6$.
+    \item $10!=3 628 800 \approx 3\cdot 10^6.$
+    \item $11!= 39 916 800 \approx 4\cdot 10^7$.
+    \item Enteros con signo de 32 bits (\texttt{int}) tienen límite superior de $2^{31}-1\approx 2\times 10^9$.
+    \item Enteros con signo de 64 bits (\texttt{long long}) tienen límite superior de $2^{64}-1\approx 1\times 10^{19}$.
+\end{itemize}
+
+\end{multicols}
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{lll}
+    \hline
+    $n$ & Peor algoritmo aceptado &  Ejemplo\\
+    \hline
+    $\le 10\ldots 11$ & $O(n!),\, O(n^6)$ & Enumerar permutaciones \\
+    $\le 17\ldots 19$ & $O(2^n n^2)$ & DP TSP \\
+    $\le 18\ldots 22$ & $O(2^n n)$ & DP con técnica de bitmask\\
+    $\le 24\ldots 26$ & $O(2^n)$ & Probar $2^n$ posibilidades, $O(1)$ cada verificación\\
+    $\le 100$ & $O(n^4)$ & DP con 3 dimensiones + ciclo $O(n)$, $\binom{n}{4}$.\\
+    $\le 450$ & $O(n^3)$ & Floyd--Warshall \\
+    $\le 1.5K$ & $O(n^{2.5})$ & Hopcroft--Karp\\
+    $\le 2.5\mathrm{K}$ & $O(n^2 \log n)$ & 2 bucles anidados + árboles \\
+    $\le 10\mathrm{K}$ & $O(n^2)$ & Bubble/Selection/Insertion Sort  \\
+    $\le 200\mathrm{K}$ & $n^{1.5}$ & Descomposición de raíces cuadradas \\
+    $\le 4.5\mathrm{M}$ & $O(n \log n)$ & Merge Sort \\
+    $\le 10\mathrm{M}$ & $O(n \log \log n)$ & Criba de Eratóstenes \\
+    $\le 100\mathrm{M}$ & $O(n),\, O(\log n),\, O(1)$ & La mayoría de problemas tiene $n \le 1M$\\
+    \hline
+  \end{tabular}
+  \caption{Worst AC Algorithm}
+  \label{tab:mi_tabla}
+\end{table}
+\begin{multicols}{2}

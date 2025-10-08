@@ -1,0 +1,117 @@
+\paragraph{Idea.} Representa un conjunto de objetos con un entero sin signo:
+\texttt{uint32\_t} para hasta 32 elementos o \texttt{uint64\_t} para hasta 64.
+El objeto $j$-ésimo (0-index) corresponde al bit $j$.
+
+\subsubsection*{Tipos y seguridad}
+\begin{itemize}
+  \item Usa SIEMPRE tipos \emph{sin signo} para bitmasks: \texttt{uint32\_t}/\texttt{uint64\_t}.
+  \item Para desplazar 64 bits, usa \texttt{1ULL << j} (no \texttt{1 << j}).
+  \item Desplazar por $\ge$ al ancho del tipo es \textbf{UB} (evítalo).
+  \item \texttt{\_\_builtin\_ctz(l)}/\texttt{clz} están \textbf{indefinidas si $x=0$}; valida antes.
+\end{itemize}
+
+\subsubsection*{Operaciones básicas}
+Sea \texttt{S} una máscara (\texttt{uint64\_t}):
+\begin{enumerate}
+  \item Encender $j$: \texttt{S |= (1ULL << j)}.
+  \item Apagar $j$: \texttt{S \&= \string~(1ULL << j)}.
+  \item Alternar $j$: \texttt{S \string^= (1ULL << j)}.
+  \item Probar $j$: \texttt{((S >> j) \& 1ULL)} o \texttt{(S \& (1ULL << j)) != 0}.
+  \item Mínimo bit encendido (LSB): \texttt{LSOne = S \& -S}.
+  \item Índice del LSB: \texttt{\_\_builtin\_ctzll(S)} (\textbf{S>0}).
+  \item Índice del MSB: \texttt{63 - \_\_builtin\_clzll(S)} (\textbf{S>0}).
+  \item ¿Potencia de 2?: \texttt{S \&\& !(S \& (S-1))}.
+  \item Todos los $n$ bits bajos a 1:
+  \[
+    \texttt{S = (n==64 ? \string~0ULL : ((1ULL<<n)-1))}
+  \]
+  \item Módulo por potencia de 2 (\texttt{N = 2$^k$}): \texttt{S \& (N-1)}.
+\end{enumerate}
+
+\subsubsection*{Identidades útiles (y qué hacen)}
+\begin{center}
+\begin{tabular}{l l}
+\texttt{x \& -x} & Máscara con el bit encendido más bajo (LSB).\\
+\texttt{x \& (x-1)} & Apaga el LSB (quita un 1).\\
+\texttt{x | (x-1)} & Rellena a 1 todos los bits por debajo del MSB de \texttt{x}.\\
+\texttt{x \& (x+1)} & Apaga el bloque de unos finales (trailing ones).\\
+\texttt{\string~x \& (x+1)} & Máscara con el cero más bajo (LSZB).\\
+\texttt{x | (x+1)} & Enciende el cero más bajo y deja todos los inferiores en 1.\\
+\end{tabular}
+\end{center}
+
+\subsubsection*{Funciones builtin (GCC/Clang)}
+\begin{itemize}
+  \item \texttt{\_\_builtin\_popcountll(x)}: \# de bits en 1.
+  \item \texttt{\_\_builtin\_ctzll(x)}: ceros a la derecha (índice del LSB). \textbf{No llamar con 0}.
+  \item \texttt{\_\_builtin\_clzll(x)}: ceros a la izquierda. \textbf{No llamar con 0}.
+  \item \texttt{\_\_builtin\_parityll(x)}: paridad de bits (0/1).
+\end{itemize}
+
+\subsubsection*{Iteraciones típicas}
+\paragraph{Recorrer bits encendidos (por índices).} .
+\begin{lstlisting}[language=C++]
+for (uint64_t m = S; m; m &= m-1) {
+    int j = __builtin_ctzll(m); // indice del LSB actual
+    // usar j...
+}
+\end{lstlisting}
+
+\paragraph{Recorrer submáscaras de una máscara \texttt{mask}.} .
+\begin{lstlisting}[language=C++]
+for (uint64_t sub = mask; sub; sub = (sub-1) & mask) {
+    // usar sub...
+}
+// incluir sub=0 si hace falta: después del for, trata sub=0
+\end{lstlisting}
+\textit{Costo}: por máscara, $O(2^{\#bits\_encendidos})$. \\
+\textbf{Importante}: doble bucle \texttt{for mask}{\ldots}\texttt{for sub}{\ldots} sobre todas las máscaras es $O(3^n)$.
+
+\paragraph{Recorrer supermáscaras de una \texttt{sub} dentro de $n$ bits.} .
+\begin{lstlisting}[language=C++]
+for (uint64_t sup = sub; sup < (1ULL<<n); sup = (sup + 1) | sub) {
+    // sup contiene a sub
+}
+\end{lstlisting}
+
+\paragraph{Siguiente submáscara con el mismo \# de bits (Gosper).} .
+\begin{lstlisting}[language=C++]
+uint64_t next_comb(uint64_t x) {
+    uint64_t c = x & -x, r = x + c;
+    return (((r ^ x) >> 2) / c) | r;
+}
+\end{lstlisting}
+Útil para generar combinaciones de tamaño fijo en $[0,n)$.
+
+\subsubsection*{Alineaciones y potencias de 2}
+\begin{itemize}
+  \item Redondear \textbf{hacia abajo} a múltiplo de $2^k$:
+  \(\texttt{x \& \string~((1ULL<<k)-1)}\).
+  \item Redondear \textbf{hacia arriba} a múltiplo de $2^k$:
+  \(\texttt{(x + (1ULL<<k)-1) \& \string~((1ULL<<k)-1)}\).
+  \item \textbf{Next power of two} (para $x\ge1$):
+\begin{lstlisting}[language=C++]
+uint64_t next_pow2(uint64_t x){
+    if (x<=1) return 1;
+    --x; x|=x>>1; x|=x>>2; x|=x>>4; x|=x>>8; x|=x>>16; x|=x>>32;
+    return x+1;
+}
+\end{lstlisting}
+\end{itemize}
+
+\subsubsection*{Pequeña demo (submáscaras de 18 = 10010$_2$)}
+\begin{lstlisting}[language=C++]
+uint64_t mask = 18; // 10010
+for (uint64_t sub = mask; ; sub = (sub-1) & mask) {
+    cout << sub << "\n";
+    if (sub == 0) break;
+}
+\end{lstlisting}
+
+\subsubsection*{Buenas prácticas y gotchas}
+\begin{itemize}
+  \item Usa \texttt{uint64\_t} + literales \texttt{ULL}. Evita \texttt{long long} con operaciones de bits.
+  \item Evita desplazar por 64 (o más) y \texttt{(1<<j)} con \texttt{j=31} en 32 bits con signo.
+  \item Encapsula llamadas a \texttt{ctz/clz} en funciones que manejen $x=0$.
+  \item Si necesitas tamaño dinámico $>64$, usa \texttt{std::bitset<M>} (compilación) o construye máscaras con varios \texttt{uint64\_t}.
+\end{itemize}
