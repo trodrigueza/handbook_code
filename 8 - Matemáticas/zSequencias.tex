@@ -1,0 +1,89 @@
+\begin{center}
+{\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|p{0.28\columnwidth}|p{0.68\columnwidth}|}
+\hline
+
+\textbf{Listado de secuencias más comunes y cómo hallarlas} &
+\\ \hline
+
+\textbf{Estrellas octangulares} &
+0, 1, 14, 51, 124, 245, 426, 679, 1016, 1449, 1990, 2651, \dots \\ \cline{2-2}
+& $f(n)=n\,(2n^{2}-1)$ \\ \hline
+
+\textbf{Euler totient} &
+1, 1, 2, 2, 4, 2, 6, 4, 6, 4, 10, 4, 12, 6, \dots \\ \cline{2-2}
+& $f(n)$ = cantidad de números naturales $\le n$ coprimos con $n$. \\ \hline
+
+\textbf{Números de Bell} &
+1, 1, 2, 5, 15, 52, 203, 877, 4140, 21147, 115975, \dots \\ \cline{2-2}
+& Construir una matriz triangular con $f[0][0]=f[1][0]=1$; sumar consecutivamente como se describe y trasladar a la primera columna de cada fila. Los valores de la primera columna son la secuencia. \\ \hline
+
+\textbf{Números de Catalán} &
+1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, \dots \\ \cline{2-2}
+& $f(n)=\displaystyle\frac{(2n)!}{(n+1)!\,n!}$ \\ \hline
+
+\textbf{Números de Fermat} &
+3, 5, 17, 257, 65537, 4294967297, 18446744073709551617, \dots \\ \cline{2-2}
+& $f(n)=2^{\,2^{n}}+1$ \\ \hline
+
+\textbf{Números de Fibonacci} &
+0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, \dots \\ \cline{2-2}
+& $f(0)=0,\; f(1)=1,\; f(n)=f(n-1)+f(n-2)\ \ (n>1)$ \\ \hline
+
+\textbf{Números de Lucas} &
+2, 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, \dots \\ \cline{2-2}
+& $f(0)=2,\; f(1)=1,\; f(n)=f(n-1)+f(n-2)\ \ (n>1)$ \\ \hline
+
+\textbf{Números de Pell} &
+0, 1, 2, 5, 12, 29, 70, 169, 408, 985, 2378, 5741, 13860, \dots \\ \cline{2-2}
+& $f(0)=0,\; f(1)=1,\; f(n)=2f(n-1)+f(n-2)\ \ (n>1)$ \\ \hline
+
+\textbf{Números de Tribonacci} &
+0, 0, 1, 1, 2, 4, 7, 13, 24, 44, 81, 149, 274, 504, \dots \\ \cline{2-2}
+& $f(0)=f(1)=0,\; f(2)=1,\; f(n)=f(n-1)+f(n-2)+f(n-3)\ \ (n>2)$ \\ \hline
+
+\textbf{Números factoriales} &
+1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, \dots \\ \cline{2-2}
+& $f(0)=1,\; f(n)=\displaystyle\prod_{k=1}^{n} k\ \ (n>0)$ \\ \hline
+
+\textbf{Números piramidales cuadrados} &
+0, 1, 5, 14, 30, 55, 91, 140, 204, 285, 385, 506, 650, \dots \\ \cline{2-2}
+& $f(n)=\displaystyle\frac{n(n+1)(2n+1)}{6}$ \\ \hline
+
+\textbf{Primos de Mersenne} &
+3, 7, 31, 127, 8191, 131071, 524287, 2147483647, \dots \\ \cline{2-2}
+& $f(n)=2^{p(n)}-1$, donde $p$ recorre primos con $p(0)=2$. \\ \hline
+
+\textbf{Números tetraedrales} &
+1, 4, 10, 20, 35, 56, 84, 120, 165, 220, 286, 364, 455, \dots \\ \cline{2-2}
+& $f(n)=\displaystyle\frac{n(n+1)(n+2)}{6}$ \\ \hline
+
+\textbf{Números triangulares} &
+0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91, 105, \dots \\ \cline{2-2}
+& $f(n)=\displaystyle\frac{n(n+1)}{2}$ \\ \hline
+
+\textbf{OEIS A000127} &
+1, 2, 4, 8, 16, 31, 57, 99, 163, 256, 386, 562, \dots \\ \cline{2-2}
+& $f(n)=\displaystyle\frac{n^{4}-6n^{3}+23n^{2}-18n+24}{24}$ \\ \hline
+
+\textbf{Secuencia de Narayana} &
+1, 1, 1, 2, 3, 4, 6, 9, 13, 19, 28, 41, 60, 88, 129, \dots \\ \cline{2-2}
+& $f(0)=f(1)=f(2)=1,\; f(n)=f(n-1)+f(n-3)\ \ (n>2)$ \\ \hline
+
+\textbf{Secuencia de Silvestre} &
+2, 3, 7, 43, 1807, 3263443, 10650056950807, \dots \\ \cline{2-2}
+& $f(0)=2,\; f(n+1)=f(n)^{2}-f(n)+1$ \\ \hline
+
+\textbf{Vendedor perezoso} &
+1, 2, 4, 7, 11, 16, 22, 29, 37, 46, 56, 67, 79, 92, 106, \dots \\ \cline{2-2}
+& Equivale a triangular$(n)+1$. Máximo número de piezas con $n$ cortes a un disco:
+$\displaystyle f(n)=\frac{n(n+1)}{2}+1$ \\ \hline
+
+\textbf{Suma de divisores $\sigma(n)$} &
+1, 3, 4, 7, 6, 12, 8, 15, 13, 18, 12, 28, 14, 24, \dots \\ \cline{2-2}
+& Para $n>1$ con descomposición $n=p_{1}^{a_{1}}p_{2}^{a_{2}}\cdots p_{k}^{a_{k}}$:
+$\displaystyle f(n)=\prod_{i=1}^{k}\frac{p_{i}^{\,a_{i}+1}-1}{p_{i}-1}$ \\ \hline
+
+\end{tabular}
+}
+\end{center}
