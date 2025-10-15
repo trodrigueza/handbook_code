@@ -1,12 +1,12 @@
-El euler tour nos da una lista de los nodos ordenada por sub arboles, para esto se guarda tanto el tiempo de 
+El euler tour nos da una lista de los nodos ordenada por sub arboles, para esto se guarda tanto el tiempo de
 entrada de un nodo y además su tiempo de salida, sin embargo este Euler tour tiene una modificación pues para
 poder el calcular el lca entre 2 nodos de diferente rama necesito tener su padre dentro del rango en el que aparecen
-ambos, porque si no lo tuviera entonces no tendría manera de decir que son de ramas distintas y entonces su 
-LCA sería el que hubiera entrado antes al euler tour, por eso la modificación. 
-La modificación es que en el dfs se haga euler_tour[timer++] = node 
-Para un árbol del tipo 1 -> 2, 1 -> 3 el euler tour normal se vería de la siguiente forma 
+ambos, porque si no lo tuviera entonces no tendría manera de decir que son de ramas distintas y entonces su
+LCA sería el que hubiera entrado antes al euler tour, por eso la modificación.
+La modificación es que en el dfs se haga euler_tour[timer++] = node
+Para un árbol del tipo 1 -> 2, 1 -> 3 el euler tour normal se vería de la siguiente forma
 {1 2 2 3 3 1} en cambio con la modificación es {1 2 1 3 1}, así se calcula el LCA y da 1
-NOTA: Es importante mencionar que con el Euler tour + LCA se pueden responder preguntas en caminos entre nodos siempre y cuándo 
+NOTA: Es importante mencionar que con el Euler tour + LCA se pueden responder preguntas en caminos entre nodos siempre y cuándo
 la operación o la consulta sea invertible. Se calcula la operación desde la raíz hasta cada nodo, luego se calcula el LCA y entre 2 nodos
 es la operación hasta a y hasta b - 2 LCA(a,b), si la operación no es invertible, paila.
 
@@ -33,6 +33,7 @@ int mn_tin(int x, int y) {
   return (tin[x] < tin[y] ? x : y);
 }
 
+// Build the segment tree: run build() after running dfs
 void build(int node = 1, int l = 0, int r = timer - 1) {
   if (l == r) segtree[node] = euler_tour[l];
   else {

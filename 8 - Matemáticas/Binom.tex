@@ -1,0 +1,24 @@
+Para $n \in N$:
+\[
+(a+b)^n \;=\; \sum_{k=0}^{n} \binom{n}{k}\, a^{\,n-k}\, b^{\,k}.
+\]
+En programación competitiva solemos trabajar \emph{modulo primo} $p$ (e.g. $10^9{+}7$, $998244353$) y precomputar factoriales para responder $\binom{n}{k}$ en $O(1)$.
+
+Identidades:\\
+\begin{align*}
+\binom{n}{k} &= \binom{n}{n-k}, &
+\binom{n}{k} &= \binom{n-1}{k} + \binom{n-1}{k-1} \quad\text{(Pascal)},\\
+\sum_{k=0}^{r} \binom{n}{k} &= \binom{n+1}{r+1} \quad\text{(Hockey-stick)},&
+\sum_{k} \binom{r}{k}\binom{s}{n-k} &= \binom{r+s}{n} \quad\text{(Vandermonde)}.
+\end{align*}
+\textbf{Caso $n$ negativo (extensión binomial):} para $m\in N$,
+\[
+\binom{-m}{k} = (-1)^k \binom{m+k-1}{k}.
+\]
+
+\begin{itemize}
+  \item Muchas queries con $n$ grande \;$\Rightarrow$ precompute factoriales/inversos: $\binom{n}{k}$ en $O(1)$.
+  \item $k$ pequeño (pocas queries, $n$ enorme) \;$\Rightarrow$ fórmula $O(k)$ sin precompute.
+  \item $n,k$ enormes y $p$ primo pequeño \;$\Rightarrow$ \textbf{Lucas}.
+  \item $N$ pequeño \;$\Rightarrow$ \textbf{triángulo de Pascal} en $O(N^2)$.
+\end{itemize}
