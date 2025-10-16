@@ -1,5 +1,27 @@
-#include <bits/stdc++.h>
-using namespace std;
+Heavy-Light Decomposition (HLD) para arboles.
+Descompone un arbol en cadenas (paths) para que las consultas de camino y subarbol
+se puedan responder eficientemente usando una estructura de datos sobre un arreglo,
+como un Segment Tree.
+
+Complejidad:
+- Build: O(N)
+- Query en camino (u, v): O(log^2 N)
+- Update en vertice v: O(log N)
+- Query en subarbol de v: O(log N)
+
+Uso general:
+1. Crear instancia: HeavyLight hld(n);
+2. Anadir aristas: hld.addEdge(u, v); para cada arista.
+3. Construir: hld.build(root, valores_iniciales);
+4. Realizar operaciones:
+   - hld.updateVertex(v, nuevo_valor);
+   - hld.queryPath(u, v);
+   - hld.querySubtree(v);
+
+Nota: El Segment Tree implementado es para sumas. Se puede modificar para otras
+operaciones conmutativas (min, max, gcd, xor, etc.). Los nodos del arbol
+son 1-indexados en la interfaz publica.
+
 using ll = long long;
 
 struct SegTree {
@@ -141,10 +163,7 @@ struct HeavyLight {
 };
 
 int main(){
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    int n;
-    if(!(cin >> n)) return 0;
+    int n; cin >> n;
     vector<ll> val(n+1);
     for(int i=1;i<=n;i++) cin >> val[i];
 

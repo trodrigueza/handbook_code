@@ -1,14 +1,11 @@
-Pa encontrar los puentes en un grafo no dirigido, se necesita tener el tiempo de entrada de cada nodo 
+Pa encontrar los puentes en un grafo no dirigido, se necesita tener el tiempo de entrada de cada nodo
 y el tiempo más antiguo (pequeño/lejano) alcanzable desde el vértice actual, entonces por ejemplo
 si quito una arista entonces el tiempo de más antiguo de los 2 vértices incidentes, digamos (u, to) se remueve
-entonces si low[u] < low[to] significa que esa vaina es un puente porque entonces u puede alcanzar un nodo anterior al 
+entonces si low[u] < low[to] significa que esa vaina es un puente porque entonces u puede alcanzar un nodo anterior al
 de to y eso hace que se rompa la componente.
 
 Retorna una lista de los puentes en el grafo y mediante esta uno podría armar un grafo sin puentes.
 Que tambien sirve por ejemplo con DSU para saber si hay un camino fijo entre 2 nodos.
-
-#include <bits/stdc++.h>
-using namespace std;
 
 const int MAXN = 100005;
 vector<int> g[MAXN];
@@ -49,9 +46,6 @@ void find_bridges() {
 }
 
 int main() {
-  ios::sync_with_stdio(false);
-  cin.tie(nullptr);
-
   cin >> n >> m;
   for (int i = 0; i < m; i++) {
     int u, v; cin >> u >> v;

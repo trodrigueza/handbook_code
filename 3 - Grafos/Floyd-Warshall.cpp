@@ -1,8 +1,16 @@
+Algoritmo de Floyd-Warshall para All-Pairs Shortest Path (APSP) en O(N^3).
+1. Crear instancia: FloydWarshall fw(n);
+2. Anadir aristas: fw.add_edge(u, v, w);
+3. Ejecutar: fw.run();
+La distancia de i a j esta en fw.dist[i][j].
+Para reconstruir el camino, usar fw.get_path(i, j).
+Soporta aristas con pesos negativos y detecta ciclos negativos con fw.has_neg_cycle().
+
 struct FloydWarshall {
     int n;
     const long long INF = (1LL<<60);
     vector<vector<long long>> dist; // dist[i][j]
-    vector<vector<int>> nxt;        // nxt[i][j] para reconstruir camino
+    vector<vector<int>> nxt; // nxt[i][j] para reconstruir camino
 
     FloydWarshall(int n): n(n), dist(n, vector<long long>(n, INF)),
                           nxt(n, vector<int>(n, -1)) {
@@ -70,7 +78,7 @@ int main() {
     add_edge(0,1,4);
     add_edge(0,2,11);
     add_edge(0,3,10);
-    add_edge(1,2,-2);  // negativa permitida
+    add_edge(1,2,-2);
     add_edge(1,3,8);
     add_edge(2,3,3);
 

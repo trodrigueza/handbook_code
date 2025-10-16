@@ -1,9 +1,15 @@
-#include <bits/stdc++.h>
-using namespace std;
+Sumas de prefijos 2D para contar componentes conexas en una submatriz.
+La idea se basa en la caracteristica de Euler para grafos (V - E).
+El numero de componentes es el numero de nodos ('1') menos el numero de aristas (pares adyacentes de '1').
+Se precalculan tres matrices de sumas de prefijos:
+1. Para los nodos ('1's).
+2. Para las aristas horizontales (dos '1's adyacentes horizontalmente).
+3. Para las aristas verticales (dos '1's adyacentes verticalmente).
+Cada consulta se responde en O(1) restando los valores precalculados.
+Complejidad: O(N*M) para precalculo, O(1) por consulta.
+Uso: Modificar la logica de 'b', 'h', 'v' segun la definicion de nodo y arista del problema.
 
 int32_t main() {
-  ios::sync_with_stdio(0);
-  cin.tie(0);
   int n, m, q; cin >> n >> m >> q;
   vector<string> a(n);
   for (int i = 0; i < n; i++) cin >> a[i];
@@ -43,4 +49,3 @@ int32_t main() {
     cout << total_blue - hor - ver << "\n";
   }
 }
-
