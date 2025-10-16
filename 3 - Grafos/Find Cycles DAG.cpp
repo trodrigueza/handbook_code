@@ -1,12 +1,12 @@
-// Algoritmo de Johnson para contar ciclos en grafo dirigido
-// Complejidad O((n+e)(c+1)) dónde c es el número de ciclos.
-// No hay uno mejorar así que si piden hallar ciclos seguramente sea este el que hay que usar.
-// Verificar que los n+e sean pequeños y si dan información de los ciclos que hay
+* Algoritmo de Johnson para contar ciclos en grafo dirigido
+Complejidad O((n+e)(c+1)) dónde c es el número de ciclos.
+No hay uno mejorar así que si piden hallar ciclos seguramente sea este el que hay que usar.
+Verificar que los n+e sean pequeños y si dan información de los ciclos que hay
 
 int count_cycles = 0;
 
 // El stack, y todos los vectores pueden pasarse por referencia o hacerlos globales para quitarle overhead a la llamada de funciones.
-void circuit(int v, int s, vector<vector<int>>& A, vector<bool>& blocked, vector<vector<int>>& B, vector<int>& stack) 
+void circuit(int v, int s, vector<vector<int>>& A, vector<bool>& blocked, vector<vector<int>>& B, vector<int>& stack)
 {
   stack.push_back(v);
   blocked[v] = true;
@@ -25,7 +25,7 @@ void circuit(int v, int s, vector<vector<int>>& A, vector<bool>& blocked, vector
 }
 
 // Usa el vector como una lista de adyacencias.
-int johnson(vector<vector<int>>& G) 
+int johnson(vector<vector<int>>& G)
 {
   int n = G.size();
   count_cycles = 0;
@@ -38,4 +38,3 @@ int johnson(vector<vector<int>>& G)
   }
   return count_cycles;
 }
-

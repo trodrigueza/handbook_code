@@ -1,11 +1,8 @@
-Aquí se cuentan  el número de caminos cerrados de longitud K.
+* Aqui se cuentan  el número de caminos cerrados de longitud K.
 Usa potencias de la matriz de adyacencia pero tengo entendido que no se puede con matrix exponentiation
 funciona para n <= 50 y k <= 10, cuenta la cantidad de ciclos de longitud k
-NOTA: No funciona con matrix exponentiation porque para hallar k = 10 se necesita k = 9 y así 
+NOTA: No funciona con matrix exponentiation porque para hallar k = 10 se necesita k = 9 y así
 sucesivamente, solo funcionaría para contar la cantidad de ciclos de especifica longitud.
-
-#include <bits/stdc++.h>
-using namespace std;
 
 using Matrix = vector<vector<long long>>;
 
@@ -50,8 +47,6 @@ int main() {
 }
 
 // --------------------------------------------------------------------------
-#include <bits/stdc++.h>
-using namespace std;
 using Matrix = vector<vector<long long>>;
 
 Matrix mult(const Matrix& A, const Matrix& B, long long mod = 1e9+7) {
@@ -94,4 +89,3 @@ int main() {
     cout << "Ciclos cerrados de longitud " << K << ": "
          << (trace * ((1000000007 + 1) / K % 1000000007)) % 1000000007 << "\n";
 }
-

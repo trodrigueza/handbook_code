@@ -1,3 +1,13 @@
+*Algoritmo de Hopcroft-Karp para maximum bipartite matching.
+Complejidad: O(E * sqrt(V)).
+
+Uso:
+- n: Nodos en la particion izquierda (0 a n-1).
+- k: Nodos en la particion derecha (0 a k-1).
+- g: Lista de adyacencia de tamano n. g[u] son los vecinos de u en la particion derecha.
+- Llamar a hopcroft_karp() devuelve el tamano del matching.
+- El matching se guarda en pairU y pairV.
+
 int n, k;
 vector<vector<int>> g;
 vector<int> pairU, pairV, dist;

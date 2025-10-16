@@ -1,5 +1,10 @@
+Rolling Hash. Permite calcular el hash de cualquier subcadena en O(1) despues de un precalculo en O(N).
+1. Crear una instancia: RH rh(mi_string);
+2. Obtener hash de subcadena s[l..r]: rh.hash_sub(l, r);
+Es util para comparar subcadenas rapidamente. Para evitar colisiones, se puede usar doble hashing (dos bases y dos modulos diferentes).
+
 typedef long long ll;
-const ll MOD = 1e9+7;    
+const ll MOD = 1e9+7;
 const ll BASE = 31; // 911382323, 137
 
 struct RH {
@@ -45,7 +50,7 @@ void solve() {
 
   int l = 0;
   int r = (int)a.size();
-  l--; 
+  l--;
   while (r - l > 1) {
     int m = (l + r) / 2;
     if (f(a[m])) l = m;
@@ -55,7 +60,7 @@ void solve() {
     cout << "Just a legend\n";
     return;
   }
-  for (int i = 0; i < a[l]; i++) 
+  for (int i = 0; i < a[l]; i++)
     cout << s[i];
   cout << "\n";
 }

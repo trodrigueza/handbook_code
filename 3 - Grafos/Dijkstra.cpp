@@ -1,3 +1,10 @@
+* Implementacion del algoritmo de Dijkstra para encontrar los caminos mas cortos desde un unico origen en un grafo con pesos no negativos.
+Complejidad: O(E log V).
+1. `Dijkstra dijk(n);` para crear un grafo de n nodos.
+2. `dijk.add_edge(u, v, w);` para anadir aristas.
+3. `auto [dist, parent] = dijk.run(s);` para ejecutar desde el nodo `s`. `dist[i]` es la distancia a `i`, y `parent` sirve para reconstruir caminos.
+4. `Dijkstra::get_path(s, t, parent);` para obtener el camino de `s` a `t`.
+
 struct Dijkstra {
     int n;
     const long long INF = (1LL<<60);
@@ -6,7 +13,6 @@ struct Dijkstra {
     Dijkstra(int n): n(n), g(n) {}
 
     void add_edge(int u, int v, long long w, bool undirected=false){
-        // PRE: w >= 0
         g[u].push_back({v, w});
         if (undirected) g[v].push_back({u, w});
     }
@@ -24,8 +30,6 @@ struct Dijkstra {
             auto [du, u] = pq.top(); pq.pop();
             if (du != dist[u]) continue; // lazy deletion
             for (auto [v, w] : g[u]) {
-                // si sospechas de negativos en input:
-                // if (w < 0) throw runtime_error("Dijkstra necesita w>=0");
                 long long nd = du + w;
                 if (nd < dist[v]) {
                     dist[v] = nd;
@@ -57,7 +61,6 @@ int main() {
         g[v].push_back({u,w});
     };
 
-    // Grafo no dirigido (todos w >= 0)
     add_undirected(0,1,7);
     add_undirected(0,2,9);
     add_undirected(0,5,14);
@@ -80,7 +83,7 @@ int main() {
         auto [du, u] = pq.top(); pq.pop();
         if (du != dist[u]) continue;
         for (auto [v, w] : g[u]) {
-            long long nd = du + w; // w >= 0
+            long long nd = du + w;
             if (nd < dist[v]) {
                 dist[v] = nd;
                 parent[v] = u;
@@ -89,7 +92,6 @@ int main() {
         }
     }
 
-    // Distancias desde 0
     cout << "Distancias desde 0:\n";
     for (int i = 0; i < n; ++i)
         cout << "0->" << i << " = " << dist[i] << "\n";

@@ -9,9 +9,8 @@ Para un árbol del tipo 1 -> 2, 1 -> 3 el euler tour normal se vería de la sigu
 NOTA: Es importante mencionar que con el Euler tour + LCA se pueden responder preguntas en caminos entre nodos siempre y cuándo
 la operación o la consulta sea invertible. Se calcula la operación desde la raíz hasta cada nodo, luego se calcula el LCA y entre 2 nodos
 es la operación hasta a y hasta b - 2 LCA(a,b), si la operación no es invertible, paila.
-IMPORTANTE: Revisar los tamaños de los arreglos, esa mierda me dañó. 
+IMPORTANTE: Revisar los tamaños de los arreglos, esa mierda me dañó.
 IMPORTANTE: El ultimo elemento del euler tour esta en timer-1, asi que un for va desde 0 <= i < timer
-
 
 int n;  // Nodos del árbol
 vector<int> graph[100000]; // Árbol con lista de adyacencias.

@@ -1,5 +1,5 @@
 Modificacion del BFS para detectar si un grafo es bipartito.
-Básicamente la idea es pintar el grafo, un grafo bipartito debe tener la caracteristica que se puede pintar con 2 
+Básicamente la idea es pintar el grafo, un grafo bipartito debe tener la caracteristica que se puede pintar con 2
 colores y además los vértices adyacentes a un vértices cualquiera deben tener colores distintos a ese vértice.
 
 const int MX = 1e5+5; // Cantidad maxima de nodos

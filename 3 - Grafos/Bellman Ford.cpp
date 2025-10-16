@@ -1,3 +1,9 @@
+Calcula la ruta mas corta desde un nodo fuente a todos los demas en un grafo dirigido con pesos. A diferencia de Dijkstra, funciona con aristas de peso negativo. Su complejidad es O(V * E).
+La idea es relajar todas las aristas V-1 veces. Una V-esima iteracion se usa para detectar ciclos de peso negativo: si una distancia aun puede ser mejorada, significa que hay un ciclo negativo.
+Diferencia entre ejemplos:
+- Ejemplo 1: Implementacion estandar para encontrar el camino mas corto. Inicializa distancias en INF.
+- Ejemplo 2: Variacion para encontrar el camino mas largo. Inicializa distancias en -INF y busca maximizar la distancia. Detecta ciclos de peso positivo que son relevantes para la solucion (alcanzables desde el origen y que pueden llegar al destino).
+
 * Ejemplo 1
 const int INF = 1e9;
 vector<pair<int, int>> adj[N]; // (to, weight)
@@ -27,8 +33,6 @@ vector<int> bellman_ford(int n, int src) {
 
 
 * Ejemplo 2
-#define int long long
-
 int32_t main() {
     int n, m, s, t;
     cin >> n >> m >> s >> t;

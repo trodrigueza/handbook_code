@@ -2,19 +2,11 @@
 - updateAddLinear(l, r, A, B): Suma A*p + B a v[p] para p en [l, r], donde p es el indice.
 - updateSet(l, r, val): Asigna v[p] = val para p en [l, r].
 - queryRange(l, r): Suma en el rango [l, r].
-Todas las operaciones son O(log N).
 La funcion push propaga las operaciones. Una asignacion (set) cancela sumas pendientes.
 build(t, 1, 0, n-1, a) para construir el arbol t sobre el vector a.
-#include <bits/stdc++.h>
-using namespace std;
 
 #define int long long
 
-// Quiero sumar 1, 2, 3, ... en ai, ai+1, a+2, ...
-// Esto es, sumar p - i + 1 donde p es el índice..
-// Esto es, sumar Ap + B, una funció lineal.......
-// con A = 1 y B = 1 - i
-// También necesito poder hacer ai = ai+1 = ai+2 = k
 const int MAXN = 100005;
 const int T = 26;
 int st[T][4*MAXN]; // suma del segmento

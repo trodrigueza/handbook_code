@@ -38,8 +38,6 @@ vector<long long> getAllDivisors(int x) {
 }
 
 int32_t main() {
-  ios::sync_with_stdio(0);
-  cin.tie(0);
   for (int i = 2; i <= N; i++) {
     if (lp[i] == 0) {
       lp[i] = i;

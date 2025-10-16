@@ -1,9 +1,5 @@
-Util para encontrar la cantidad de ciclos simples en un grafo no dirigido. 
+* Util para encontrar la cantidad de ciclos simples en un grafo no dirigido.
 Pero solo sirve si la cantidad de vértices es <= 15
-
-
-#include <bits/stdc++.h>
-using namespace std;
 
 int n, m;
 vector<vector<int>> g;
@@ -46,4 +42,3 @@ int main() {
 
   cout << "Cantidad de ciclos simples: " << countAllCycles() << "\n";
 }
-

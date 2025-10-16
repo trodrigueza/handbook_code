@@ -1,6 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 vector<string> board;
 int counter = 0;
 
@@ -17,7 +14,7 @@ bool check2(vector<int> iter) {
 	for (int i = 0; i < 8; i++) {
 		int row = iter[i];
 		int col = i;
-		
+
 		if(board[row][col] == '*') return false;
 	}
 	return true;
@@ -29,7 +26,7 @@ void gen(vector<int> &input, vector<int> &current, vector<bool> &used) {
 		}
 		return;
 	}
-	
+
 	for (int i = 0; i < (int)input.size(); i++) {
 		if(!used[i]) {
 			used[i] = true;
@@ -42,15 +39,12 @@ void gen(vector<int> &input, vector<int> &current, vector<bool> &used) {
 }
 
 int main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
 	int n = 8;
 	vector<int> toGen(n);
 	for (int i = 0; i < n; i++) {
 		toGen[i] = i;
 	}
-	
-	
+
 	for (int i = 0; i < 8; i++) {
 		string row = "";
 		for (int j = 0; j < 8; j++) {
@@ -59,10 +53,9 @@ int main() {
 		}
 		board.push_back(row);
 	}
-	
+
 	vector<int> currentP;
 	vector<bool> marked(n, false);
 	gen(toGen, currentP, marked);
 	cout << counter;
-	return 0;
 }

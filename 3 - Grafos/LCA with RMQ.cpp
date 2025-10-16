@@ -1,3 +1,11 @@
+LCA con Euler Tour y Segment Tree.
+Reduce el problema de LCA a RMQ (Range Minimum Query).
+1. Llena el grafo 'graph'.
+2. Llama a dfs() para precalcular el euler tour y los tiempos tin.
+3. Llama a build() para construir el segment tree.
+4. Llama a lca(a, b) para obtener la respuesta.
+Complejidad: Precalculo O(N log N), Query O(log N).
+
 int n;  // The number of nodes in the graph
 vector<int> graph[100000];
 int timer = 0, tin[100000], euler_tour[200000];

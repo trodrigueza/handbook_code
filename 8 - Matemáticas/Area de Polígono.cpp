@@ -1,6 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 typedef long long ll;
 
 const int INF = 1e9;
@@ -15,7 +12,7 @@ long double area(vector<pair<long double, long double>> &cords) {
     //cout <<  ((x1 * y2) - (y1 * x2)) << "\n";
     area += ((x1 * y2) - (y1 * x2));
   }
-  
+
   return abs(area) / 2;
 }
 
@@ -34,11 +31,6 @@ void solve() {
      p1.push_back(cur);
      p1.push_back(cords[(i + 1) % n]);
      for (int j = i + 2; j <= (i + n - 2); j++) {
-       /*if (i > j) {
-         int m = i;
-         i = j;
-         j = m;
-       }*/
        p1.push_back(cords[j % n]);
        long double curArea = area(p1);
        minA = min(minA, abs((aT - curArea) - curArea));
@@ -48,8 +40,6 @@ void solve() {
 }
 
 int32_t main() {
-  ios::sync_with_stdio(0);
-  cin.tie(0);
   int t = 1;
   while (t--) {
     solve();

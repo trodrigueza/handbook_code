@@ -1,9 +1,12 @@
-typedef long long ll;
-typedef pair<ll, ll> pll;
+String Hashing (Doble Hash). Permite comparar substrings en O(1).
+Precalculo en O(N): `DoubleHash dh(s);`
+Obtener hash de s[l..r]: `dh.get(l, r);` // o(1)
+Comparar s[l1..r1] y s[l2..r2]: `dh.equal(l1, r1, l2, r2);` // o(1)
+Usa dos modulos para mayor robustez.
 
 struct DoubleHash {
   const ll mod[2]  = {(ll)1e9+7, (ll)1e9+9};
-  const ll base[2] = {911382323LL,    972663749LL};
+  const ll base[2] = {911382323LL, 972663749LL};
 
   vector<array<ll,2>> pref, pw;
 

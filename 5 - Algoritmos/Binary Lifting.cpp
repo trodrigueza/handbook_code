@@ -3,13 +3,11 @@ Binary Lifting, la idea es como lograr hacer aplicaciones de funciones, como enc
 vector<int> apps;
 vector<int> a;
 
-int apply (int j)
-{
+int apply (int j) {
   return apps[j]-1;
 }
 
-void solve() 
-{
+void solve() {
   vector<vector<int>> dp(61, vector<int>(2e5));
   int n, k; cin >> n >> k;
   a.resize(n);
