@@ -18,3 +18,25 @@ void dfs(int node = 1, int parent = -1) {
   }
 }
 
+Otra versión, esta es la original, metiendo el tiempo de salida solo al final.
+
+int n, m;
+vector<int> graph[MAXN];
+int a[MAXN];
+int tin[MAXN], tout[MAXN], euler_tour[MAXN], depth[MAXN];
+int timer = 0;
+
+int seg[4*MAXN], lazy[4*MAXN];
+
+void dfs(int node = 1, int parent = -1, int d = 0) 
+{
+  depth[node] = d;
+  tin[node] = timer;
+  euler_tour[timer++] = node;
+  for (int v : graph[node]) {
+    if (v == parent) continue;
+    dfs(v, node, d + 1);
+  }
+  tout[node] = timer - 1;
+}
+
