@@ -1,3 +1,10 @@
+* Segment Tree con Lazy Propagation que soporta actualizaciones de suma lineal y asignacion en rango.
+- updateAddLinear(l, r, A, B): Suma A*p + B a v[p] para p en [l, r], donde p es el indice.
+- updateSet(l, r, val): Asigna v[p] = val para p en [l, r].
+- queryRange(l, r): Suma en el rango [l, r].
+Todas las operaciones son O(log N).
+La funcion push propaga las operaciones. Una asignacion (set) cancela sumas pendientes.
+build(t, 1, 0, n-1, a) para construir el arbol t sobre el vector a.
 #include <bits/stdc++.h>
 using namespace std;
 

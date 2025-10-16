@@ -2,14 +2,6 @@
 \texttt{uint32\_t} para hasta 32 elementos o \texttt{uint64\_t} para hasta 64.
 El objeto $j$-ésimo (0-index) corresponde al bit $j$.
 
-\subsubsection*{Tipos y seguridad}
-\begin{itemize}
-  \item Usa SIEMPRE tipos \emph{sin signo} para bitmasks: \texttt{uint32\_t}/\texttt{uint64\_t}.
-  \item Para desplazar 64 bits, usa \texttt{1ULL << j} (no \texttt{1 << j}).
-  \item Desplazar por $\ge$ al ancho del tipo es \textbf{UB} (evítalo).
-  \item \texttt{\_\_builtin\_ctz(l)}/\texttt{clz} están \textbf{indefinidas si $x=0$}; valida antes.
-\end{itemize}
-
 \subsubsection*{Operaciones básicas}
 Sea \texttt{S} una máscara (\texttt{uint64\_t}):
 \begin{enumerate}
@@ -40,7 +32,7 @@ Sea \texttt{S} una máscara (\texttt{uint64\_t}):
 \end{tabular}
 \end{center}
 
-\subsubsection*{Funciones builtin (GCC/Clang)}
+\subsubsection*{Funciones builtin}
 \begin{itemize}
   \item \texttt{\_\_builtin\_popcountll(x)}: \# de bits en 1.
   \item \texttt{\_\_builtin\_ctzll(x)}: ceros a la derecha (índice del LSB). \textbf{No llamar con 0}.
@@ -48,7 +40,6 @@ Sea \texttt{S} una máscara (\texttt{uint64\_t}):
   \item \texttt{\_\_builtin\_parityll(x)}: paridad de bits (0/1).
 \end{itemize}
 
-\subsubsection*{Iteraciones típicas}
 \paragraph{Recorrer bits encendidos (por índices).} .
 \begin{lstlisting}[language=C++]
 for (uint64_t m = S; m; m &= m-1) {
@@ -74,7 +65,7 @@ for (uint64_t sup = sub; sup < (1ULL<<n); sup = (sup + 1) | sub) {
 }
 \end{lstlisting}
 
-\paragraph{Siguiente submáscara con el mismo \# de bits (Gosper).} .
+\paragraph{Siguiente submáscara con el mismo \# de bits.} .
 \begin{lstlisting}[language=C++]
 uint64_t next_comb(uint64_t x) {
     uint64_t c = x & -x, r = x + c;
@@ -97,21 +88,4 @@ uint64_t next_pow2(uint64_t x){
     return x+1;
 }
 \end{lstlisting}
-\end{itemize}
-
-\subsubsection*{Pequeña demo (submáscaras de 18 = 10010$_2$)}
-\begin{lstlisting}[language=C++]
-uint64_t mask = 18; // 10010
-for (uint64_t sub = mask; ; sub = (sub-1) & mask) {
-    cout << sub << "\n";
-    if (sub == 0) break;
-}
-\end{lstlisting}
-
-\subsubsection*{Buenas prácticas y gotchas}
-\begin{itemize}
-  \item Usa \texttt{uint64\_t} + literales \texttt{ULL}. Evita \texttt{long long} con operaciones de bits.
-  \item Evita desplazar por 64 (o más) y \texttt{(1<<j)} con \texttt{j=31} en 32 bits con signo.
-  \item Encapsula llamadas a \texttt{ctz/clz} en funciones que manejen $x=0$.
-  \item Si necesitas tamaño dinámico $>64$, usa \texttt{std::bitset<M>} (compilación) o construye máscaras con varios \texttt{uint64\_t}.
 \end{itemize}

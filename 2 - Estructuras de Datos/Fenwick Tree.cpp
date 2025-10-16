@@ -1,3 +1,8 @@
+* La clase principal FenwickTree soporta actualizaciones de punto y consultas de rango (PURQ).
+Adicionalmente, se incluyen dos clases auxiliares que usan el arbol de Fenwick:
+- RUPQ: para actualizaciones de rango y consultas de punto.
+- RURQ: para actualizaciones de rango y consultas de rango.
+
 #define LSOne(S) ((S) & -(S))
 
 class FenwickTree {

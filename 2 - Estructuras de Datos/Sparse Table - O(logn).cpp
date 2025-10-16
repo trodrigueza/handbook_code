@@ -1,9 +1,9 @@
 * Construcción O(n log n). Guarda en st[k][i] la suma del bloque de longitud 2^k que empieza en i.
-* Consulta: descompón [L,R] en bloques disjuntos de potencias de dos.
+Consulta: descompón [L,R] en bloques disjuntos de potencias de dos.
 
 struct SparseTableSum {
     int n, K;
-    vector<vector<long long>> st; // long long para evitar overflow
+    vector<vector<long long>> st;
 
     SparseTableSum() {}
     SparseTableSum(const vector<long long>& a){ init(a); }
@@ -31,11 +31,7 @@ struct SparseTableSum {
     }
 };
 
-// ----- ejemplo -----
 int main(){
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
     int n; cin >> n;
     vector<long long> a(n);
     for (auto &x : a) cin >> x;

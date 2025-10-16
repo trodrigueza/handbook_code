@@ -1,5 +1,9 @@
-typedef long long ll;
-typedef pair<int, int> pii;
+* Dos arboles de segmentos para resolver queries de GCD y minimo en un rango [l, r] sobre un arreglo estatico.
+build_gcd/build_min: Construye el arbol en O(n).
+query_gcd/query_min: Responde una query en O(log n).
+Adicionalmente, un mapa 'val_pos' precalcula las posiciones de cada valor para busquedas rapidas.
+El problema especifico resuelto es: para un rango [l, r], si el GCD es igual al minimo,
+cuenta cuantos elementos no son iguales a ese valor. Si no, la respuesta es la longitud del rango.
 
 const int INF = 1e9;
 const ll LLINF = 4e18;
@@ -55,8 +59,7 @@ int query_min(int v, int tl, int tr, int l, int r) {
 map<int, vector<int>> val_pos;
 
 void solve() {
-  int l, r;
-  cin >> l >> r;
+  int l, r; cin >> l >> r;
   l--; r--;
 
   int g = query_gcd(1, 0, n - 1, l, r);
@@ -73,9 +76,6 @@ void solve() {
 }
 
 int32_t main() {
-  ios::sync_with_stdio(0);
-  cin.tie(0);
-
   cin >> n;
   for (int i = 0; i < n; ++i) {
     cin >> s[i];

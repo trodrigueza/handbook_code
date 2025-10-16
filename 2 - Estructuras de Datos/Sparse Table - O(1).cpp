@@ -1,8 +1,9 @@
 * Válida para min, max, gcd, lcm, AND, OR, XOR...
-* Construcción O(n log n); consulta O(1) con 2 bloques solapados.
-* Para gcd/lcm, define un Op con std::gcd/std::lcm (C++17). Para XOR, usa [](T a,T b){return a^b;}.
+Construcción O(n log n); consulta O(1) con 2 bloques solapados.
+Para gcd/lc: Op con std::gcd/std::lcm.
+Para XOR: Op con [](T a,T b){return a^b;}.
 
-// Functor de ejemplo (min). Puedes definir Max, GCD, etc.
+// Functor de ejemplo (min). Se puede definir Max, GCD, etc.
 struct MinOp {
     template<class T>
     T operator()(const T& a, const T& b) const { return a < b ? a : b; }
@@ -11,8 +12,8 @@ struct MinOp {
 template<class T, class Op = MinOp>
 struct SparseTableIdem {
     int n, K;
-    vector<int> lg;             // lg[i] = floor(log2(i))
-    vector<vector<T>> st;       // st[k][i] cubre [i, i+2^k-1]
+    vector<int> lg; // lg[i] = floor(log2(i))
+    vector<vector<T>> st; // st[k][i] cubre [i, i+2^k-1]
     Op op;
 
     SparseTableIdem() {}
@@ -40,16 +41,12 @@ struct SparseTableIdem {
     }
 };
 
-// ----- ejemplo de uso -----
 int main(){
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
     int n; cin >> n;
     vector<int> a(n);
     for (auto &x : a) cin >> x;
 
     SparseTableIdem<int, MinOp> rmq(a);
-    int L, R; cin >> L >> R;    // ejemplo
+    int L, R; cin >> L >> R;
     cout << rmq.query(L, R) << "\n";
 }

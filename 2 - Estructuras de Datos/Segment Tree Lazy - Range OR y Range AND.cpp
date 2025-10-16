@@ -1,13 +1,27 @@
+* Segment Tree con Lazy Propagation.
+Resuelve el problema de encontrar un arreglo 'a' dadas 'm' restricciones (l, r, q)
+donde el AND de a[l..r] debe ser q.
+La idea es que si el AND de un rango es q, cada elemento en el rango debe tener
+al menos los bits de q. Por lo tanto, para cada (l, r, q), hacemos a[i] |= q
+para todo i en [l, r]. Esto se hace con una actualizacion de OR por rango.
+Despues, se verifica si el arreglo resultante cumple todas las restricciones
+originales, usando una consulta de AND por rango.
+
+- update(l, r, val): Hace a[i] |= val para i en [l..r].
+- query(l, r): Devuelve el AND de a[i] para i en [l..r].
+
+El neutro del AND es -1 (todos los bits en 1).
+
 static const int MAXN = 100000;
-int st[4*MAXN];     // almacena AND en [tl..tr]
+int st[4*MAXN]; // almacena AND en [tl..tr]
 int marked[4*MAXN]; // almacena OR pendiente
 
 // Empuja la máscara OR pendiente a los hijos
 void push(int v) {
   if (marked[v] == 0) return;
-  st[2*v]     |= marked[v];
-  st[2*v+1]   |= marked[v];
-  marked[2*v]   |= marked[v];
+  st[2*v] |= marked[v];
+  st[2*v+1] |= marked[v];
+  marked[2*v] |= marked[v];
   marked[2*v+1] |= marked[v];
   marked[v] = 0;
 }
@@ -16,13 +30,13 @@ void push(int v) {
 void update(int v, int tl, int tr, int l, int r, int new_val) {
   if (l > r) return;
   if (l == tl && r == tr) {
-    st[v]     |= new_val;
+    st[v] |= new_val;
     marked[v] |= new_val; // etiqueta pendiente
   } else {
     push(v);
     int tm = (tl + tr) / 2;
-    update(v*2,     tl,    tm,   l, min(r,tm),    new_val);
-    update(v*2+1, tm+1,   tr, max(l,tm+1),  r,  new_val);
+    update(v*2, tl, tm, l, min(r,tm), new_val);
+    update(v*2+1, tm+1, tr, max(l,tm+1), r, new_val);
     st[v] = st[v*2] & st[v*2+1]; // recalcular AND
   }
 }
@@ -35,8 +49,8 @@ int query(int v, int tl, int tr, int l, int r) {
   }
   push(v);
   int tm = (tl + tr) / 2;
-  int left  = query(v*2,    tl,   tm,   l, min(r,tm));
-  int right = query(v*2+1, tm+1,  tr, max(l,tm+1),  r);
+  int left  = query(v*2, tl, tm, l, min(r,tm));
+  int right = query(v*2+1, tm+1, tr, max(l,tm+1), r);
   return left & right;
 }
 
@@ -53,11 +67,7 @@ void print_leaves(int v, int tl, int tr) {
 }
 
 int main() {
-  ios::sync_with_stdio(false);
-  cin.tie(nullptr);
-
-  int n, m;
-  cin >> n >> m;
+  int n, m; cin >> n >> m;
   vector<array<int,3>> queries(m);
   for (int i = 0; i < m; i++) {
     int l, r, q;
@@ -66,9 +76,8 @@ int main() {
   }
 
   // Inicializar árbol a 0
-  for (int i = 0; i < 4*MAXN; i++) {
+  for (int i = 0; i < 4*MAXN; i++)
     st[i] = marked[i] = 0;
-  }
 
   // 1) Aplicar todas las actualizaciones OR por rango
   for (auto &qr : queries) {
@@ -88,5 +97,4 @@ int main() {
   cout << "YES\n";
   print_leaves(1, 0, n-1);
   cout << "\n";
-  return 0;
 }
