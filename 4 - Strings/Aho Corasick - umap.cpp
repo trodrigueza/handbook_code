@@ -1,5 +1,4 @@
-#include <bits/stdc++.h>
-using namespace std;
+Implementacion de Aho-Corasick para encontrar multiples patrones, soporta alfabetos > 26 por el umap.
 
 struct Node {
   unordered_map<int, int> links;
@@ -10,12 +9,12 @@ struct Node {
 
 class Trie {
   vector<Node> t;
-  
+
   public:
   Trie() {
     t.emplace_back();
   }
-  
+
   void insert(const string &s, int id) {
     int v = 0;
     for (auto ch : s) {
@@ -59,7 +58,7 @@ class Trie {
 
       for (int id : t[v].out) cnt[id]++;
 
-      for (int u = t[v].exit; u; u = t[u].exit) 
+      for (int u = t[v].exit; u; u = t[u].exit)
         for (int id : t[u].out) cnt[id]++;
     }
     return cnt;

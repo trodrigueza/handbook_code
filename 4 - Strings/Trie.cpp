@@ -1,3 +1,16 @@
+Aho-Corasick. Encuentra todas las ocurrencias de un conjunto de patrones (diccionario) en un texto.
+Complejidad: O(|texto| + |diccionario|).
+1. Anadir cada patron al diccionario con add_string().
+2. Para procesar el texto, iterar sobre sus caracteres y transicionar en el automata:
+   int estado_actual = 0;
+   for (char c : texto) {
+     estado_actual = go(estado_actual, c);
+     // aqui se procesan los matches. Un match ocurre si t[estado_actual].output es true.
+     // Para encontrar todos los matches que terminan en la posicion actual,
+     // se debe seguir la cadena de suffix links (get_link) desde el estado_actual
+     // hasta la raiz y chequear el flag 'output' en cada nodo.
+   }
+
 // m: total length of all considered words.
 // k: size of dictionary.
 const int K = 26;

@@ -1,26 +1,32 @@
-#include <bits/stdc++.h>
-using namespace std;
- 
+Aho-Corasick para encontrar todas las ocurrencias de multiples patrones en un texto.
+Complejidad: O(N + M + K) donde N es el tamano del texto, M la suma de
+longitudes de los patrones y K el numero de ocurrencias.
+1. Crea un objeto Trie.
+2. Inserta cada patron con un id unico: trie.insert(patron, id).
+3. Llama a trie.build() una vez despues de insertar todos los patrones.
+4. Llama a trie.countAll(texto, numero_de_patrones) para obtener un vector
+   con las ocurrencias de cada patron.
+
 struct Node {
   int links[26];
   int suffix;
   int exit;
   vector<int> out;
- 
+
   Node() {
     fill(begin(links), end(links), -1);
     suffix = exit = -1;
   }
 };
- 
+
 class Trie {
   vector<Node> t;
- 
+
   public:
     Trie() {
       t.emplace_back();
     }
- 
+
     void insert(const string& s, int id) {
       int v = 0;
       for (char ch : s) {
@@ -33,11 +39,11 @@ class Trie {
       }
       t[v].out.push_back(id);
     }
- 
+
     void build() {
       queue<int> q;
       t[0].suffix = t[0].exit = 0;
-      
+
       for (int c = 0; c < 26; c++) {
         int u = t[0].links[c];
         if (u != -1) {
@@ -48,7 +54,7 @@ class Trie {
           t[0].links[c] = 0;
         }
       }
- 
+
       while (!q.empty()) {
         int v = q.front(); q.pop();
         for (int c = 0; c < 26; c++) {
@@ -63,14 +69,14 @@ class Trie {
         }
       }
     }
- 
+
     vector<long long> countAll(const string &s, int K) {
       vector<long long> cnt(K, 0);
       int v = 0;
       for (char ch : s) {
         v = t[v].links[ch-'a'];
         for (int i : t[v].out) cnt[i]++;
- 
+
         for (int u = t[v].exit; u; u = t[u].exit) {
           for (int i : t[u].out) cnt[i]++;
         }
@@ -78,11 +84,11 @@ class Trie {
       return cnt;
     }
 };
- 
+
 int32_t main() {
   ios::sync_with_stdio(0);
   cin.tie(0);
- 
+
   string s; cin >> s;
   int k; cin >> k;
   Trie trie;
@@ -93,7 +99,7 @@ int32_t main() {
     //cout << tmp << "-\n";
     st.insert(vs[i]);
   }
-  
+
   int l = 0;
   unordered_map<string, int> mp;
   for (auto &w : st) {
@@ -105,6 +111,6 @@ int32_t main() {
   vector<long long> ans = trie.countAll(s, st.size());
   for (int i = 0; i < k; i++) {
     cout << ans[mp[vs[i]]] << " ";
-  } 
+  }
   cout << "\n";
 }
