@@ -1,4 +1,7 @@
-typedef long long ll;
+* Segment Tree para suma de rangos y actualizacion de puntos.
+- build(1, 0, n-1): Construye el arbol a partir del arreglo 'a'.
+- query(1, 0, n-1, l, r): Obtiene la suma en el rango [l, r].
+- update(1, 0, n-1, pos, val): Actualiza el valor en la posicion 'pos'.
 
 const int MAXN = 100000;
 ll a[MAXN], st[4*MAXN];
@@ -9,8 +12,8 @@ void build(int v, int tl, int tr) {
     st[v] = a[tl]; // valor en la hoja
   } else {
     int tm = (tl + tr) / 2;
-    build(v*2,     tl,   tm);    // hijo izquierdo -> [tl..tm]
-    build(v*2+1,  tm+1, tr);     // hijo derecho -> [tm+1..tr]
+    build(v*2, tl, tm);    // hijo izquierdo -> [tl..tm]
+    build(v*2+1, tm+1, tr);     // hijo derecho -> [tm+1..tr]
     st[v] = st[v*2] + st[v*2+1]; // suma de los hijos
   }
 }
@@ -21,7 +24,7 @@ ll query(int v, int tl, int tr, int l, int r) {
   if (l == tl && r == tr) return st[v];
   int tm = (tl + tr) / 2;
   // sumo recursivamente las partes de izquierda y derecha
-  return query(v*2, tl,    tm,   l, min(r,tm))
+  return query(v*2, tl, tm, l, min(r,tm))
        + query(v*2+1,tm+1, tr, max(l,tm+1), r);
 }
 
@@ -32,40 +35,27 @@ void update(int v, int tl, int tr, int pos, ll new_val) {
   } else {
     int tm = (tl + tr) / 2;
     if (pos <= tm) {
-      update(v*2,     tl,   tm,   pos, new_val);
+      update(v*2, tl, tm, pos, new_val);
     } else {
-      update(v*2+1,  tm+1, tr,   pos, new_val);
+      update(v*2+1,  tm+1, tr, pos, new_val);
     }
     st[v] = st[v*2] + st[v*2+1];
   }
 }
 
-int main() {
-  ios::sync_with_stdio(false);
-  cin.tie(nullptr);
-
-  int n, q;
-  cin >> n >> q;
-  for (int i = 0; i < n; i++) {
-    cin >> a[i];
-  }
+int32_t main() {
+  int n, q; cin >> n >> q;
+  for (int i = 0; i < n; i++) cin >> a[i];
   build(1, 0, n-1);
 
   while (q--) {
-    int type;
-    cin >> type;
+    int type; cin >> type;
     if (type == 1) {
-      int pos;
-      ll val;
-      cin >> pos >> val;
-      // 0-based
+      int pos; ll val; cin >> pos >> val;
       update(1, 0, n-1, pos, val);
     } else {
-      int l, r;
-      cin >> l >> r;
-      // 0-based
+      int l, r; cin >> l >> r;
       cout << query(1, 0, n-1, l, r) << "\n";
     }
   }
-  return 0;
 }

@@ -1,3 +1,13 @@
+ * Segment Tree con Lazy Propagation para Range Minimum Query (RMQ) y Range Update.
+Las operaciones son en O(log n).
+
+SegmentTree st(vector<int> A); // Construye el arbol con los valores iniciales de A.
+st.RMQ(i, j); // Devuelve el minimo en el rango [i, j].
+st.update(i, j, val); // Asigna 'val' a todos los elementos en el rango [i, j].
+
+Nota: Esta implementacion usa -1 para marcar la ausencia de una actualizacion pendiente (lazy flag).
+No funcionara correctamente si -1 es un valor valido en los datos.
+
 class SegmentTree {
 private:
 	int n;
