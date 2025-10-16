@@ -24,16 +24,15 @@ void dfs(int v, int p = -1) {
   tin[v] = low[v] = timer++;
 
   for (int to : g[v]) {
-    if (to == p) continue; // No mirar la arista por donde llegamos
+    if (to == p) continue;
     if (visited[to]) {
-      // Arista de retroceso
       low[v] = min(low[v], tin[to]);
     } else {
       dfs(to, v);
       low[v] = min(low[v], low[to]);
 
       if (low[to] > tin[v]) {
-	bridges.push_back({v, to}); // Encontramos un puente
+	bridges.push_back({v, to});
       }
     }
   }
