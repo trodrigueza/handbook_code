@@ -1,5 +1,3 @@
-Binary Lifting, la idea es como lograr hacer aplicaciones de funciones, como encontrar el k-esimo ancestro de un nodo con una complejidad de O(log n).
-
 vector<int> apps;
 vector<int> a;
 
@@ -37,3 +35,4 @@ void solve()
   for (auto a : ans) cout << a << ' ';
   cout << '\n';
 }
+
