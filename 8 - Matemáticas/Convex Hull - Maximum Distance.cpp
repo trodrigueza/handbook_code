@@ -1,7 +1,4 @@
 // O(nlogn)
-#include <bits/stdc++.h>
-using namespace std;
-
 typedef long long ll;
 typedef pair<int, int> pii;
 
@@ -29,9 +26,9 @@ vector<Point> convexHull(vector<Point>& points) {
   sort(points.begin(), points.end());
   points.erase(unique(points.begin(), points.end()), points.end());
   n = points.size();
-  
+
   if (n < 2) return points;
-  
+
   vector<Point> hull(2*n);
   int k = 0;
 
@@ -58,24 +55,24 @@ void solve() {
   for (int i = 0; i < n; i++) {
     cin >> points[i].y;
   }
-  
+
   auto hull = convexHull(points);
   int m = hull.size();
-  
+
   if (m == 1) {
     cout << 0 << "\n";
     return;
   }
-  
+
   ll maxDist2 = 0;
-  
+
   for (int i = 0, j = 1; i < m; i++) {
     while (dist2(hull[i], hull[(j+1) % m]) > dist2(hull[i], hull[j])) {
       j = (j + 1) % m;
     }
     maxDist2 = max(maxDist2, dist2(hull[i], hull[j]));
   }
-  
+
   cout << maxDist2 << "\n";
 }
 
