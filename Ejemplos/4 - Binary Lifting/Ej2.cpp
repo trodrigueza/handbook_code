@@ -6,15 +6,14 @@ void solve()
   int n , k; cin >> n >> k;
   for (int i = 0; i < n; i++) cin >> v[i];
 
-  // Por la input
   for (int i = 0; i < n; i++) dp[0][i] = v[i];
 
-  // 61 pa los ancestros
   for (int i = 1; i < 40; i++) {
     for (int j = 0; j < n; j++) {
-      // El estado actual se consigue con el ancestro anterior y además como piden la suma 
-      // se tiene que sumar con la manera en la que se llegó aquí que es dp[i-1][j] + j
-      dp[i][j] = dp[i-1][j] + dp[i-1][ (j+dp[i-1][j])%n ];
+      // X' = (X mod n) + (dp[i-1][j] % n)
+      // (X mod n) = j
+      // X' = (j + dp[i-1][j] ) % n
+      dp[i][j] = dp[i-1][j] + dp[i-1][ ( j + dp[i-1][j] ) % n ];
     }
   }
 
