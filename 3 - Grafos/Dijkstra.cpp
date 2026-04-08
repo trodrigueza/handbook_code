@@ -1,107 +1,40 @@
 * Implementacion del algoritmo de Dijkstra para encontrar los caminos mas cortos desde un unico origen en un grafo con pesos no negativos.
 Complejidad: O(E log V).
-1. `Dijkstra dijk(n);` para crear un grafo de n nodos.
-2. `dijk.add_edge(u, v, w);` para anadir aristas.
-3. `auto [dist, parent] = dijk.run(s);` para ejecutar desde el nodo `s`. `dist[i]` es la distancia a `i`, y `parent` sirve para reconstruir caminos.
-4. `Dijkstra::get_path(s, t, parent);` para obtener el camino de `s` a `t`.
 
-struct Dijkstra {
-    int n;
-    const long long INF = (1LL<<60);
-    vector<vector<pair<int,long long>>> g; // g[u] = {v, w}
+const int MAXN = 1e4+5;
 
-    Dijkstra(int n): n(n), g(n) {}
-
-    void add_edge(int u, int v, long long w, bool undirected=false){
-        g[u].push_back({v, w});
-        if (undirected) g[v].push_back({u, w});
-    }
-
-    pair<vector<long long>, vector<int>> run(int s) const {
-        vector<long long> dist(n, INF);
-        vector<int> parent(n, -1);
-        using P = pair<long long,int>;
-        priority_queue<P, vector<P>, greater<P>> pq;
-
-        dist[s] = 0;
-        pq.push({0, s});
-
-        while (!pq.empty()) {
-            auto [du, u] = pq.top(); pq.pop();
-            if (du != dist[u]) continue; // lazy deletion
-            for (auto [v, w] : g[u]) {
-                long long nd = du + w;
-                if (nd < dist[v]) {
-                    dist[v] = nd;
-                    parent[v] = u;
-                    pq.push({nd, v});
-                }
-            }
-        }
-        return {dist, parent};
-    }
-
-    static vector<int> get_path(int s, int t, const vector<int>& parent){
-        if (s==t && parent[t]==-1) return {s};
-        if (parent[t]==-1) return {};
-        vector<int> path;
-        for (int v = t; v != -1; v = parent[v]) path.push_back(v);
-        reverse(path.begin(), path.end());
-        return path;
-    }
+struct Edge {
+    int from;
+    int to;
+    int length;
 };
 
-int main() {
-    const long long INF = (1LL<<60);
-    int n = 6;
-    vector<vector<pair<int,long long>>> g(n);
+vector<Edge> graph[ MAXN ];
 
-    auto add_undirected = [&](int u, int v, long long w){
-        g[u].push_back({v,w});
-        g[v].push_back({u,w});
-    };
+void add_edge( int u , int v , int l )
+{
+    graph[ u ].push_back( { u , v , l } );
+    graph[ v ].push_back( { v , u , l } );
+}
 
-    add_undirected(0,1,7);
-    add_undirected(0,2,9);
-    add_undirected(0,5,14);
-    add_undirected(1,2,10);
-    add_undirected(1,3,15);
-    add_undirected(2,3,11);
-    add_undirected(2,5,2);
-    add_undirected(3,4,6);
-    add_undirected(4,5,9);
+vector<int> dijkstra ( int s , int to , int n )
+{
+    vector<int> dst( n , oo );
+    priority_queue< pii , vector<pii> , greater<pii> > pq;
+    dst[ s ] = 0;
+    pq.push( { 0 , s } );
 
-    int s = 0, t = 4;
-    vector<long long> dist(n, INF);
-    vector<int> parent(n, -1);
-
-    using P = pair<long long,int>;
-    priority_queue<P, vector<P>, greater<P>> pq;
-    dist[s] = 0; pq.push({0, s});
-
-    while (!pq.empty()) {
-        auto [du, u] = pq.top(); pq.pop();
-        if (du != dist[u]) continue;
-        for (auto [v, w] : g[u]) {
-            long long nd = du + w;
-            if (nd < dist[v]) {
-                dist[v] = nd;
-                parent[v] = u;
-                pq.push({nd, v});
+    while ( !pq.empty() ) {
+        pii _ = pq.top(); pq.pop();
+        int actual = _.ss;
+        if ( _.ff != dst[ actual ] ) continue;
+        for ( auto [ _ , v , w ] : graph[ actual ] ) {
+            int new_d = dst[ actual ] + w;
+            if ( new_d < dst[ v ] ) {
+                dst[ v ] = new_d;
+                pq.push( { dst[ v ] , v } );
             }
         }
     }
-
-    cout << "Distancias desde 0:\n";
-    for (int i = 0; i < n; ++i)
-        cout << "0->" << i << " = " << dist[i] << "\n";
-
-    // Reconstrucción de 0->4
-    vector<int> path;
-    for (int v = t; v != -1; v = parent[v]) path.push_back(v);
-    reverse(path.begin(), path.end());
-
-    cout << "Camino 0->4: ";
-    for (int v : path) cout << v << " ";
-    cout << "\nCosto: " << dist[t] << "\n";
+    return dst;
 }
