@@ -40,4 +40,15 @@ Node query(int a, int b, int node = 1, int l = 0, int r = n - 1) {
     return merge( query( a , b , node * 2 , l , mid ) , 
             query( a , b , node * 2 + 1 , mid+1 , r ) );
 }
+
+// Encuentra el k-ésimo elemento para segment binario vivo/muerto
+int kth(int k, int node = 1, int l = 0, int r = m - 1) {
+    if (l == r) return l;
+    int mid = (l + r) / 2;
+    if (sgt[node*2].number > k) {
+        return kth(k, node*2, l, mid);
+    } else {
+        return kth(k - sgt[node*2].number, node*2+1, mid+1, r);
+    }
+}
 // -----------------------------------------------------------------------------------
