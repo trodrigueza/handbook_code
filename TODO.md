@@ -7,3 +7,4 @@ También todo debe compartir una misma identidad.
     - DSU.
     - Centroid Decomp.
     - Aho Corasick.
+    - Matrix multiplication (está muy largo y engorroso
