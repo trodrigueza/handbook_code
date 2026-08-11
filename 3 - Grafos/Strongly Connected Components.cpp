@@ -1,110 +1,35 @@
-SCC Cuenta el numero de componentes fuertemente conexas en un grafo dirigido dado, ademas este codigo tambien cuenta desde cualquier nodo cual es el numero de componentes que puede y no puede alcanzar, tiene una complejidad de O(V+E)
-
-const int MAXN = 5005;
-
-int n, m;
-vector<int> g[MAXN], gt[MAXN]; // grafo original y transpuesto
-
-vector<int> order, compId;
-vector<bool> vis;
-vector<vector<int>> dag; // grafo condensado (SCCs)
-vector<int> indeg;       // grado de entrada por SCC
-vector<int> topo;        // orden topológico de las SCCs
-
-// ====== Primera pasada: DFS en grafo original ======
-void dfs1(int v) 
-{
-    vis[v] = true;
-    for (int u : g[v]) if (!vis[u]) dfs1(u);
-    order.push_back(v);
-}
-
-// ====== Segunda pasada: DFS en grafo transpuesto ======
-void dfs2(int v, int id) 
-{
-    vis[v] = true;
-    compId[v] = id;
-    for (int u : gt[v]) if (!vis[u]) dfs2(u, id);
-}
-
-// ====== Kosaraju principal ======
-int kosaraju() 
-{
-    order.clear();
-    vis.assign(n, false);
-    for (int i = 0; i < n; i++)
-        if (!vis[i])
-            dfs1(i);
-
-    reverse(order.begin(), order.end());
-    vis.assign(n, false);
-    compId.assign(n, -1);
-    int sccCount = 0;
-
-    for (int v : order)
-        if (!vis[v]) dfs2(v, sccCount++);
-
-    // ====== Construcción del DAG condensado ======
-    dag.assign(sccCount, {});
-    indeg.assign(sccCount, 0);
-
-    for (int v = 0; v < n; v++) {
-        for (int u : g[v]) {
-            if (compId[v] != compId[u]) {
-                dag[compId[v]].push_back(compId[u]);
-                indeg[compId[u]]++;
+// Joel lo entiende.
+// Strongly connected Components----------------------------------------------------------
+vector<vector<int>> get_scc( const vector<vector<int>>& g, vector<int>& scc_id ) {
+    int n = g.size(), timer = 0;
+    vector<int> dfn( n ), low( n ), stk, in_stk( n );
+    vector<vector<int>> sccs;
+    
+    scc_id.assign( n , -1 );
+    
+    auto dfs = [&](auto& self, int u) -> void {
+        dfn[ u ] = low[ u ] = ++timer;
+        stk.push_back( u );
+        in_stk[ u ] = 1;
+        
+        for ( int v : g[ u ] ) {
+            if ( !dfn[ v ] ) self( self , v ) , low[ u ] = min( low[ u ] , low[ v ] );
+            else if ( in_stk[ v ] ) low[ u ] = min( low[ u ] , dfn[ v ] );
+        }
+        
+        if ( low[ u ] == dfn[ u ] ) {
+            sccs.push_back( {} );
+            for ( int v = -1; v != u; ) {
+                v = stk.back(); stk.pop_back();
+                in_stk[ v ] = 0;
+                sccs.back().push_back( v );
+                
+                scc_id[ v ] = sccs.size() - 1; 
             }
         }
-    }
-
-    // ====== Orden topológico de las SCCs ======
-    topo.clear();
-    queue<int> q;
-    vector<int> indeg_copy = indeg;
-    for (int i = 0; i < sccCount; i++)
-        if (indeg_copy[i] == 0) q.push(i);
-
-    while (!q.empty()) {
-        int v = q.front(); q.pop();
-        topo.push_back(v);
-        for (int u : dag[v])
-            if (--indeg_copy[u] == 0)
-                q.push(u);
-    }
-
-    return sccCount;
-}
-
-vector<bool> markReachableFromSCC(int startSCC) 
-{
-    int S = (int)dag.size();
-    vector<bool> reach(S, 0);
-    if (startSCC < 0) return reach;
-    function<void(int)> dfs = [&](int v) {
-        reach[v] = 1;
-        for (int u : dag[v]) if (!reach[u]) dfs(u);
     };
-    dfs(startSCC);
-    return reach;
-}
+    
+    for ( int i = 1; i < n; i++ ) if ( !dfn[ i ] ) dfs( dfs , i );
 
-void solve() 
-{
-  cin >> n >> m;
-  int k; cin >> k; k--;
-  for (int i = 0; i < m; i++) {
-    int from, to; cin >> from >> to;
-    from--, to--;
-    g[from].push_back(to);
-    gt[to].push_back(from);
-  }
-
-  int total = kosaraju();
-  int sccStart = compId[k];
-  auto reachable = markReachableFromSCC(sccStart);
-  int ans = 0;
-  for (int i = 0; i < total; i++) {
-    if (indeg[i] == 0 and !reachable[i]) ans++;
-  }
-  cout << ans << '\n';
+    return sccs;
 }
