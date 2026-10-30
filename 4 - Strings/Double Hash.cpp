@@ -9,8 +9,12 @@ struct DoubleHash {
   const ll base[2] = {911382323LL, 972663749LL};
 
   vector<array<ll,2>> pref, pw;
+  int n;
+  vector<int> str;
+  array<ll,2> full;   // hash de [0, n-1]
 
-  DoubleHash(const string& s) {
+
+  DoubleHash(const vector<int>& s) : n((int)s.size()) , str(s) {
     int n = (int)s.size();
     pref.assign(n + 1, {0,0});
     pw.assign(n + 1, {1,1});
@@ -20,56 +24,30 @@ struct DoubleHash {
         pw[i + 1][k]   = (pw[i][k]   * base[k]) % mod[k];
       }
     }
+    full = pref[n];
   }
 
-  pll get(int l, int r) const {
+  array<ll,2> get(int l, int r) const {
     array<ll,2> h{};
     for (int k = 0; k < 2; k++) {
       ll cur = (pref[r + 1][k] - pref[l][k] * pw[r - l + 1][k]) % mod[k];
       if (cur < 0) cur += mod[k];
       h[k] = cur;
     }
-    return {h[0], h[1]};
+    return h;
+  }
+
+  array<ll,2> update(int x, int c) {
+	  for (int k = 0; k < 2; k++) {
+		  ll diff = ((ll)c - str[x]+mod[ k ]) % mod[k];
+		  if (diff < 0) diff += mod[k];
+		  full[k] = (full[k] + diff * pw[n - 1 - x][k]) % mod[k];
+	  }
+	  str[ x ]  = c;
+	  return full;
   }
 
   bool equal(int l1, int r1, int l2, int r2) const {
     return get(l1, r1) == get(l2, r2);
   }
 };
-
-void solve() {
-  string s; cin >> s;
-  int n = (int)s.size();
-  DoubleHash rh(s);
-  vector<int> a;
-  for (int i = 0; i+1 < n; i++) {
-    if (rh.equal(0, i, n-i-1, n-1)){
-      a.push_back(i+1);
-    }
-  }
-
-  auto f = [&](int x) {
-    for (int i = 1; i + x - 1 < n-1; i++) {
-      if (rh.equal(0, x-1, i, i+x-1)) {
-        return 1;
-      }
-    }
-    return 0;
-  };
-
-  int l = 0;
-  int r = (int)a.size();
-  l--;
-  while (r - l > 1) {
-    int m = (l + r) / 2;
-    if (f(a[m])) l = m;
-    else r = m;
-  }
-  if (l < 0 || l >= n) {
-    cout << "Just a legend\n";
-    return;
-  }
-  for (int i = 0; i < a[l]; i++)
-    cout << s[i];
-  cout << "\n";
-}

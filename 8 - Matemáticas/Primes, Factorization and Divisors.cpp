@@ -1,4 +1,4 @@
-const int N = (int)1e7;
+const int N = (int)4e7;
 int lp[N+1];
 vector<int> pr;
 
